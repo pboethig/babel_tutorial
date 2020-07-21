@@ -1,20 +1,26 @@
 'use strict';
 
-const Helper = require('./RepLogAppHelper');
-const $ = require('jquery');
-const swal = require('sweetalert2');
-
+import Helper from './RepLogAppHelper';
+import $ from 'jquery';
+import swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
+import Routing from'./Routing';
+import random from 'lodash/random';
 
     let HelperInstances = new WeakMap();
 
     class RepLogApp {
-        constructor($wrapper) {
+        constructor($wrapper, initialReplogs) {
             this.$wrapper = $wrapper;
             this.repLogs = [];
 
             HelperInstances.set(this, new Helper(this.repLogs));
 
-            this.loadRepLogs();
+            for(let repLog of initialReplogs){
+                this._addRow(repLog)
+            }
+
+            this._clearForm();
 
             this.$wrapper.on(
                 'click',
@@ -42,15 +48,7 @@ const swal = require('sweetalert2');
             }
         }
 
-        loadRepLogs() {
-            $.ajax({
-                url: Routing.generate('rep_log_list'),
-            }).then(data => {
-                for (let repLog of data.items) {
-                    this._addRow(repLog);
-                }
-            })
-        }
+
 
         updateTotalWeightLifted() {
             this.$wrapper.find('.js-total-weight').html(
@@ -179,6 +177,7 @@ const swal = require('sweetalert2');
 
             const $form = this.$wrapper.find(RepLogApp._selectors.newRepForm);
             $form[0].reset();
+            $form.find('[name="reps"]').val(random(1,20));
         }
 
         _addRow(repLog) {
@@ -215,4 +214,4 @@ const swal = require('sweetalert2');
 </tr>
 `;
 
-module.exports = RepLogApp;
+export default  RepLogApp;

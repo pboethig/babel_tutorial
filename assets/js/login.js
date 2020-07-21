@@ -1,6 +1,7 @@
 'use strict';
 
-const $ = require('jquery');
+import $ from 'jquery';
+import "../css/login.css";
 
 $(document).ready(function () {
     $('.js-recommended-login').on('click', '.js-show-login', function (e) {

@@ -2,8 +2,8 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-md-7 js-rep-log-table">
-            <h2>
+        <div class="col-md-7 js-rep-log-table" data-rep-logs="{{ repLogsJson|e('html_attr') }}">
+            <h2 class="test-center">
                 Lift History
             </h2>
 
@@ -34,8 +34,12 @@
         </div>
         <div class="col-md-5">
             <div class="leaderboard">
-                <h2 class="text-center">
-                    <img class="dumbbell" src="{{ asset('assets/images/dumbbell.png') }}" />
+                <h2 class="text-center js-custom-popover"
+                data-toggle="popover"
+                title="About the leader"
+                data-content="Want to be"
+                >
+                    <img class="dumbbell" src="{{ asset('build/static/dumbbell.png') }}" />
                     Leaderboard
                 </h2>
 
@@ -45,14 +49,19 @@
     </div>
 {% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/6.6.0/sweetalert2.min.css" />
-{% endblock %}
-
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('/build/rep_log.js') }}"></script>
 
+
+    <script>
+        $(document).ready(function () {
+            $('.js-custom-popover').popover(
+                {
+                    trigger:'hover',
+                    placement:'left'
+                }
+            );
+        })
+    </script>
 {% endblock %}
